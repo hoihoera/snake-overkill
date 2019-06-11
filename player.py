@@ -1,9 +1,10 @@
 from gameobject import *
 from eventhandler import keys, getKey
 from renderer import drawRect
-from properties import checkCollision
+from properties import checkCollision, GRID_IMAX
 import apple
 import application
+import time
 class Player(GameObject):
     # Constructor
     def __init__(self, startPos):
@@ -11,12 +12,15 @@ class Player(GameObject):
         self.trueDir = 0 # the direction the player is moving in (updates every game tick)
         self.inputDir = 0 # the direction changed by input polling (updates every frame)
         self.score = 0 # the score of the player (length - 3)
+        self.color = (96,255,64)
+        self.deathColor = (192,48,80)
         self.segments = [] # the body of the snake
         for i in range(3):
             self.segments.append((startPos[0],startPos[1]+i))
         self.length = len(self.segments)
     # inherited from GameObject
     def on_update(self):
+        if(not self.alive): return
         self.trueDir = self.inputDir
         for i in range(self.length-1,0,-1):
             self.segments[i] = self.segments[i-1]
@@ -34,7 +38,10 @@ class Player(GameObject):
             apple.instance.reset()
         for i in range(1,self.length):
             if(self.segments[0] == self.segments[i]): self.alive = False ; break
-        if not self.alive: application.instance.running = False
+        if self.segments[0][0] < 0 or self.segments[0][0] > GRID_IMAX[0] or self.segments[0][1] < 0 or self.segments[0][1] > GRID_IMAX[1]: self.alive = False
+        if not self.alive: 
+            application.instance.running = False 
+            self.color = self.deathColor    
     def getHead(self): return self.segments[0]
     
     def eatApple(self): 
@@ -53,4 +60,8 @@ class Player(GameObject):
            self.inputDir = 3
     # inherited from GameObject
     def on_render(self):
-        for s in self.segments: drawRect(s,(96,255,64))
+        if(self.alive):
+            for s in self.segments: drawRect(s,self.color)
+        else:
+            for i in range(1,self.length):
+                drawRect(self.segments[i],self.color)
