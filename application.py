@@ -1,59 +1,42 @@
 import pygame,time,renderer
 from properties import *
-from player import *
-from apple import *
 
-a = Apple()
+# application is a singleton (because there is only one application)
 class Application:
 
-    def __init__(self,width,height,framerate,fpt):
+    instance = None
+    def __init__(self,width,height,framerate,tickrate):
+        global instance ; instance = self
         pygame.init()
         pygame.font.init()
         self.framerate = framerate
-        self.framespertick = fpt
+        self.tickrate = tickrate
         self.createWindow(width,height)
         self.gameObjects = []
         self.running = True
-    
     def run(self):
-        fcount = 0
+        dtime = 0
         while(self.running):
-            fcount += 1
-            if(fcount == self.framespertick):
-                fcount = 0
+            dtime += 1/self.framerate
+            if(dtime == 1/self.tickrate):
+                dtime = 0
                 self.on_update()
-            
             self.on_render()
             self.on_event()
             time.sleep(1/self.framerate)
-
 
     def createWindow(self, width, height):
         renderer.screen = pygame.display.set_mode((width,height))        
 
     def on_render(self):
-        renderer.screen.fill((80,128,200))
-        pygame.draw.rect(renderer.screen,(40,48,64),pygame.Rect(GRID_SCALE,GRID_SCALE,GRID_SIZE[0]*GRID_SCALE,GRID_SIZE[1]*GRID_SCALE))
+        renderer.screenBlank()
         for g in self.gameObjects: g.on_render()
         renderer.drawScreen()
     def on_update(self):
         for g in self.gameObjects: 
-            g.on_update()
-            if(isinstance(g,Player)):
-                for i in range(1,g.length):
-                    if checkCollision(g.getHead(),g.segments[i]):
-                        self.running = False
-                if(checkCollision(g.getHead(),a.pos)):
-                    g.eatApple()
-                    a.reset()
-                    
+            g.on_update()               
     def on_event(self):
         for g in self.gameObjects: g.on_event()
+        pygame.event.pump()
 
-
-
-app = Application(RESOLUTION[0],RESOLUTION[1],FRAMERATE,FPT)
-app.gameObjects.append(Player((GRID_SIZE[0]/2,GRID_SIZE[1]/2)))
-
-app.gameObjects.append(a)
-app.run()
+# entry point moved to entry.py (to seperate engine from client)

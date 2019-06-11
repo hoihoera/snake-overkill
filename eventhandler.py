@@ -11,7 +11,4 @@ keys = {
     "esc": pygame.K_ESCAPE
     }
 
-def getKey(key):
-    out = pygame.key.get_pressed()[keys[key]]
-    pygame.event.pump()
-    return out
+def getKey(key): return pygame.key.get_pressed()[keys[key]]
