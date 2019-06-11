@@ -1,4 +1,4 @@
-import pygame,time,renderer
+import pygame,time,renderer,gameobject
 from properties import *
 
 # application is a singleton (because there is only one application)
@@ -16,6 +16,7 @@ class Application:
         self.running = True
     def run(self):
         dtime = 0
+        self.running = True
         while(self.running):
             dtime += 1/self.framerate
             if(dtime == 1/self.tickrate):
@@ -23,8 +24,13 @@ class Application:
                 self.on_update()
             self.on_render()
             self.on_event()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: return 1
             time.sleep(1/self.framerate)
-
+        time.sleep(0.6)
+        return 0
+    def clearObjectBuffer(self):
+        self.gameObjects.clear()
     def createWindow(self, width, height):
         renderer.screen = pygame.display.set_mode((width,height))        
 
