@@ -1,6 +1,6 @@
 from gameobject import *
 from properties import GRID_IMAX
-from renderer import drawRect
+import renderer
 import random
 class Apple(GameObject):
     # ik heb hier een singleton van gemaakt. als de apple
@@ -16,6 +16,7 @@ class Apple(GameObject):
         self.normalColor = (255,48,80)
         self.blinkColor = (255,192,48)
         self.color = self.normalColor
+        self.renderPos = self.pos
         instance = self
     def on_update(self):
         if(self.blinkcount == 4):
@@ -26,4 +27,9 @@ class Apple(GameObject):
     def reset(self):
         self.pos = (random.randint(0,GRID_IMAX[0]),random.randint(0,GRID_IMAX[1]))
     def on_render(self):
-        drawRect(self.pos,self.color)
+        # added linear interpolation to smoothdamp repositioning (so satisfying... :))))) )
+        # simply subtract l * delta pos from the rendered pos. smaller values for l will elongate the transition.
+        # here, l = 0.3 seems to be ok
+        self.renderPos = (self.renderPos[0] + 0.3*(self.pos[0] - self.renderPos[0]),
+                          self.renderPos[1] + 0.3*(self.pos[1] - self.renderPos[1]))
+        renderer.instance.drawRect(self.renderPos,self.color) 

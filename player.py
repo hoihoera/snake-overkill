@@ -1,6 +1,6 @@
 from gameobject import *
 from eventhandler import keys, getKey
-from renderer import drawRect
+import renderer
 from properties import checkCollision, GRID_IMAX
 import apple
 import application
@@ -61,7 +61,7 @@ class Player(GameObject):
     # inherited from GameObject
     def on_render(self):
         if(self.alive):
-            for s in self.segments: drawRect(s,self.color)
+            for s in self.segments: renderer.instance.drawRect(s,self.color)
         else:
             for i in range(1,self.length):
-                drawRect(self.segments[i],self.color)
+                renderer.instance.drawRect(self.segments[i],self.color)

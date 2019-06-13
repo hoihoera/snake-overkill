@@ -1,0 +1,19 @@
+Hallo
+om de begin tekst weg te halen: regel 19 - 23 in application.py
+
+Wijzigingen:
+
+	- Speler kan nu doodgaan enzo
+	- Application en Apple zijn singletons (omdat je maar 1 application en 1 appel hebt)
+	  Een singleton is een klasse die een globale variabele heeft met daarin de instantie
+	  van die klasse. Dit kan alleen als je maar één instantie hebt van die klasse.
+	  Hierdoor kunnen andere scripts de instantie van Application makkelijker bereiken.
+	- De appel veranderdt nu niet in één keer van plek, maar beweegt erheen. ik je wel een
+	  keer uit hoe dit precies werkt (lineaire interpolatie, klinkt lastig, is het niet)
+	- Tickrate en Framerate kunnen nu elke mogelijke waarde hebben (zolang Framerate > Tickrate)
+	- layer interface gemaakt. zie entry.py om te zien hoe dit gebruikt moet worden.
+	- renderer is nu singleton
+	- meer keycodes toegevoegd (vandaar de 67 errors)
+
+Ik leg je nog wel uit hoe layers en singletons werken (en waarom ik het heb toegevoegd).
+

@@ -5,11 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "cwd": "${workspaceFolder}",
             "name": "Application",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/entry.py",
-            "console": "externalTerminal"
+            "console": "integratedTerminal",
+            "env": {"PYTHONPATH": "${workspaceRoot}"},
+        },
+        {
+            "cwd": "${workspaceFolder}",
+            "name": "Application (external)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/entry.py",
+            "console": "externalTerminal",
+            "env": {"PYTHONPATH": "${workspaceRoot}"},
         }
     ]
+    
 }

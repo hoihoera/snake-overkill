@@ -1,0 +1,9 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+        "type": "shell",
+        "label": "exit",
+        "command": "exit", // Could be any other shell command
+        "args": [""],
+    }]
+}

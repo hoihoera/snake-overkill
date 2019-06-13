@@ -2,8 +2,9 @@ GRID_SIZE = (32,32)
 GRID_IMAX = (GRID_SIZE[0]-1,GRID_SIZE[1]-1)
 GRID_SCALE = 16
 RESOLUTION = ((GRID_SIZE[0]+2)*GRID_SCALE,(GRID_SIZE[1]+2)*GRID_SCALE)
-FRAMERATE = 30
-TICKRATE = 10
+FRAMERATE = 60
+TICKRATE = 15
+
 
 def worldToScreen(pos):
     return ((pos[0]+1)*GRID_SCALE,(pos[1]+1)*GRID_SCALE)
@@ -21,5 +22,3 @@ def validate():
     if(FRAMERATE % TICKRATE != 0):
         return 4
     return 0
-
-FPT = FRAMERATE/TICKRATE
